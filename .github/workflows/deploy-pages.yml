@@ -1,0 +1,48 @@
+name: Build and Test Frontend
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'fe/**'
+  pull_request:
+    paths:
+      - 'fe/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Build Frontend
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: fe/package-lock.json
+
+      - name: Install dependencies
+        run: |
+          cd fe
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd fe
+          npm run test -- --coverage --watchAll=false
+
+      - name: Build React app
+        run: |
+          cd fe
+          npm run build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-files
+          path: fe/build/

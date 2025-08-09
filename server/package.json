@@ -1,0 +1,20 @@
+{
+  "name": "deepseek-worker",
+  "version": "1.0.0",
+  "description": "Cloudflare Worker with DeepSeek integration and GraphQL API",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "build": "wrangler deploy --dry-run"
+  },
+  "dependencies": {
+    "graphql": "^16.8.1",
+    "graphql-yoga": "^5.1.1"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240129.0",
+    "wrangler": "^3.28.2",
+    "typescript": "^5.3.3"
+  }
+}
