@@ -1,8 +1,0 @@
-{
-  "name": "deepseek-worker",
-  "compatibility_date": "2025-08-10",
-  "main": "src/index.ts",
-  "vars": {
-    "DEEPSEEK_API_URL": "https://api.deepseek.com/v1/chat/completions"
-  }
-}
