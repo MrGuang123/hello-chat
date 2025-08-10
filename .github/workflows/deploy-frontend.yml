@@ -1,0 +1,47 @@
+name: Deploy Frontend to Cloudflare Pages
+
+on:
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'fe/**'
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'fe/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: fe/package-lock.json
+          
+      - name: Install dependencies
+        run: |
+          cd fe
+          npm ci
+          
+      - name: Build
+        run: |
+          cd fe
+          REACT_APP_GRAPHQL_ENDPOINT=https://deepseek-worker.ytg.workers.dev/graphql npm run build
+        env:
+          REACT_APP_GRAPHQL_ENDPOINT: https://deepseek-worker.ytg.workers.dev/graphql
+          
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: acdd4562588f6dfedf2b4a761bcae66e
+          projectName: hello-chat-frontend
+          directory: fe/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
