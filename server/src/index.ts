@@ -54,7 +54,7 @@ export default {
       return handleStreamChat(request, env);
     }
     
-    return yoga.fetch(request, env);
+    return yoga.fetch(request, { env });
   }
 };
 

@@ -7,14 +7,14 @@ export const typeDefs = `
   type ChatResponse {
     content: String!
     model: String!
-    usage: Usage
+    usage: Usage!
   }
 
   type ChatStreamResponse {
     content: String!
     model: String!
     isComplete: Boolean!
-    usage: Usage
+    usage: Usage!
   }
 
   type Usage {
