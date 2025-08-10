@@ -12,7 +12,7 @@ name = "deepseek-worker"
 # wrangler secret put DEEPSEEK_API_KEY --env production
 
 # Development environment (optional, inherits from main config)
-[env.dev] 
+[env.dev]
 name = "deepseek-worker-dev"
 # For development, secrets can be set using:
 # wrangler secret put DEEPSEEK_API_KEY --env dev
