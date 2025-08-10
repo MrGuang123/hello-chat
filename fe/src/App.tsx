@@ -67,16 +67,6 @@ const TypingIndicator: React.FC = () => (
   </div>
 );
 
-// AI回复函数 - 调用后端GraphQL API
-const getAIResponse = async (userMessage: string): Promise<string> => {
-  try {
-    return await sendChatMessage(userMessage);
-  } catch (error) {
-    console.error('Failed to get AI response:', error);
-    throw error;
-  }
-};
-
 // 流式AI回复函数
 const getAIResponseStream = async (
   userMessage: string, 
@@ -96,15 +86,36 @@ const HelloChatApp: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
   // 自动滚动到底部
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  // 聚焦输入框
+  const focusInput = () => {
+    inputRef.current?.focus();
+  };
+
   useEffect(() => {
     scrollToBottom();
   }, [messages, isLoading]);
+
+  // 当加载状态变为false时，聚焦输入框
+  useEffect(() => {
+    if (!isLoading) {
+      // 延迟一点时间确保消息完全显示
+      setTimeout(() => {
+        focusInput();
+      }, 100);
+    }
+  }, [isLoading]);
+
+  // 组件初始化时聚焦输入框
+  useEffect(() => {
+    focusInput();
+  }, []);
 
   // 发送消息
   const handleSendMessage = async () => {
@@ -169,6 +180,10 @@ const HelloChatApp: React.FC = () => {
   // 清空对话
   const clearChat = () => {
     setMessages([]);
+    // 清空对话后聚焦输入框
+    setTimeout(() => {
+      focusInput();
+    }, 100);
   };
 
   return (
@@ -237,6 +252,7 @@ const HelloChatApp: React.FC = () => {
             <div className="input-wrapper">
               <div className="input-container">
                 <textarea
+                  ref={inputRef}
                   value={inputValue}
                   onChange={(e) => setInputValue(e.target.value)}
                   onKeyPress={handleKeyPress}

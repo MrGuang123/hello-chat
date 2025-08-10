@@ -1,6 +1,8 @@
 .markdown-content {
   line-height: 1.6;
   color: #1f2937;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
 }
 
 .markdown-h1 {
@@ -8,6 +10,8 @@
   font-weight: 600;
   margin: 16px 0 12px 0;
   color: #1f2937;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 8px;
 }
 
 .markdown-h2 {
@@ -15,6 +19,8 @@
   font-weight: 600;
   margin: 14px 0 10px 0;
   color: #1f2937;
+  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 6px;
 }
 
 .markdown-h3 {
@@ -27,52 +33,68 @@
 .markdown-p {
   margin: 8px 0;
   color: #1f2937;
+  line-height: 1.7;
 }
 
 .markdown-inline-code {
   background-color: rgba(0, 0, 0, 0.05);
   padding: 2px 6px;
   border-radius: 4px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
   font-size: 0.9em;
   color: #1f2937;
+  border: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .markdown-code-block {
   display: block;
-  background-color: rgba(0, 0, 0, 0.05);
-  padding: 12px;
+  background-color: #f8f9fa;
+  padding: 12px 16px;
   border-radius: 6px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
   font-size: 0.9em;
   color: #1f2937;
   overflow-x: auto;
+  border: 1px solid #e5e7eb;
+  margin: 12px 0;
+  line-height: 1.5;
 }
 
 .markdown-pre {
   margin: 12px 0;
-  background-color: rgba(255, 255, 255, 0.05);
+  background-color: #f8f9fa;
   border-radius: 6px;
   overflow-x: auto;
+  border: 1px solid #e5e7eb;
+}
+
+.markdown-pre .markdown-code-block {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 12px 16px;
 }
 
 .markdown-blockquote {
-  border-left: 4px solid rgba(255, 255, 255, 0.3);
-  padding-left: 16px;
+  border-left: 4px solid #60a5fa;
+  padding: 12px 16px;
   margin: 12px 0;
+  background-color: #f8fafc;
+  border-radius: 0 6px 6px 0;
+  color: #374151;
   font-style: italic;
-  color: rgba(255, 255, 255, 0.8);
 }
 
 .markdown-ul,
 .markdown-ol {
   margin: 8px 0;
-  padding-left: 20px;
+  padding-left: 24px;
 }
 
 .markdown-li {
   margin: 4px 0;
   color: #1f2937;
+  line-height: 1.6;
 }
 
 .markdown-strong {
@@ -96,6 +118,29 @@
   text-decoration: underline;
 }
 
+/* 代码高亮样式 */
+.markdown-code-block.language-python {
+  background-color: #f0f8ff;
+  border-left: 4px solid #3776ab;
+}
+
+.markdown-code-block.language-javascript,
+.markdown-code-block.language-js {
+  background-color: #fff7e6;
+  border-left: 4px solid #f7df1e;
+}
+
+.markdown-code-block.language-typescript,
+.markdown-code-block.language-ts {
+  background-color: #f0f8ff;
+  border-left: 4px solid #3178c6;
+}
+
+.markdown-code-block.language-json {
+  background-color: #f8f9fa;
+  border-left: 4px solid #6c757d;
+}
+
 /* User message specific styles */
 .markdown-content.user {
   color: #ffffff;
@@ -104,12 +149,20 @@
 .markdown-content.user .markdown-inline-code {
   background-color: rgba(255, 255, 255, 0.2);
   color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.3);
 }
 
 .markdown-content.user .markdown-code-block,
 .markdown-content.user .markdown-pre {
   background-color: rgba(255, 255, 255, 0.1);
   color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.markdown-content.user .markdown-blockquote {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-left-color: rgba(255, 255, 255, 0.5);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 /* Assistant message specific styles */
@@ -120,14 +173,42 @@
 .markdown-content.assistant .markdown-inline-code {
   background-color: rgba(0, 0, 0, 0.05);
   color: #1f2937;
+  border-color: rgba(0, 0, 0, 0.1);
 }
 
 .markdown-content.assistant .markdown-code-block,
 .markdown-content.assistant .markdown-pre {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: #f8f9fa;
   color: #1f2937;
+  border-color: #e5e7eb;
 }
 
 .markdown-content.assistant .markdown-blockquote {
-  color: #6b7280;
+  background-color: #f8fafc;
+  border-left-color: #60a5fa;
+  color: #374151;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .markdown-content {
+    font-size: 0.95em;
+  }
+  
+  .markdown-code-block {
+    font-size: 0.85em;
+    padding: 10px 12px;
+  }
+  
+  .markdown-h1 {
+    font-size: 1.4em;
+  }
+  
+  .markdown-h2 {
+    font-size: 1.2em;
+  }
+  
+  .markdown-h3 {
+    font-size: 1.05em;
+  }
 }
