@@ -41,8 +41,18 @@ jobs:
           cd fe
           npm run build
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+      - name: Build React app
+        run: |
+          cd fe
+          REACT_APP_GRAPHQL_ENDPOINT=https://deepseek-worker.ytg.workers.dev/graphql npm run build
+        env:
+          REACT_APP_GRAPHQL_ENDPOINT: https://deepseek-worker.ytg.workers.dev/graphql
+
+      - name: Deploy to Cloudflare Pages
+        uses: cloudflare/pages-action@v1
         with:
-          name: build-files
-          path: fe/build/
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: acdd4562588f6dfedf2b4a761bcae66e
+          projectName: hello-chat-frontend
+          directory: fe/build
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
