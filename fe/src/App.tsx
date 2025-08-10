@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, User, Bot, Trash2 } from 'lucide-react';
-import { sendChatMessage } from './graphql/client';
+import { sendChatMessage, sendChatMessageStream } from './graphql/client';
 import MarkdownRenderer from './components/MarkdownRenderer';
 import './App.css';
 
@@ -77,6 +77,19 @@ const getAIResponse = async (userMessage: string): Promise<string> => {
   }
 };
 
+// 流式AI回复函数
+const getAIResponseStream = async (
+  userMessage: string, 
+  onUpdate: (content: string, isComplete: boolean) => void
+): Promise<string> => {
+  try {
+    return await sendChatMessageStream(userMessage, 'deepseek-chat', onUpdate);
+  } catch (error) {
+    console.error('Failed to get AI stream response:', error);
+    throw error;
+  }
+};
+
 // 主应用组件
 const HelloChatApp: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -108,29 +121,38 @@ const HelloChatApp: React.FC = () => {
     setInputValue('');
     setIsLoading(true);
 
-    try {
-      // 获取AI回复
-      const aiResponse = await getAIResponse(userMessage.content);
-      
-      const assistantMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: aiResponse,
-        role: 'assistant',
-        timestamp: new Date(),
-      };
+    // 创建初始的AI消息
+    const assistantMessageId = (Date.now() + 1).toString();
+    const initialAssistantMessage: Message = {
+      id: assistantMessageId,
+      content: '',
+      role: 'assistant',
+      timestamp: new Date(),
+    };
 
-      setMessages(prev => [...prev, assistantMessage]);
+    setMessages(prev => [...prev, initialAssistantMessage]);
+
+    try {
+      // 使用流式响应
+      await getAIResponseStream(userMessage.content, (content, isComplete) => {
+        setMessages(prev => 
+          prev.map(msg => 
+            msg.id === assistantMessageId 
+              ? { ...msg, content }
+              : msg
+          )
+        );
+      });
     } catch (error) {
       console.error('Error getting AI response:', error);
       
-      const errorMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        content: '抱歉，服务器连接失败。请检查网络连接或稍后重试。',
-        role: 'assistant',
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
+      setMessages(prev => 
+        prev.map(msg => 
+          msg.id === assistantMessageId 
+            ? { ...msg, content: '抱歉，服务器连接失败。请检查网络连接或稍后重试。' }
+            : msg
+        )
+      );
     } finally {
       setIsLoading(false);
     }
