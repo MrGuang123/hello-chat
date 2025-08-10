@@ -10,7 +10,7 @@ const schema = createSchema({
 const yoga = createYoga<Context>({
   schema,
   cors: {
-    origin: ['http://localhost:3000', 'https://your-frontend-domain.com'],
+    origin: ['http://localhost:3000', 'https://hello-chat-frontend.pages.dev'],
     credentials: true
   },
   context: ({ request, env }) => ({
