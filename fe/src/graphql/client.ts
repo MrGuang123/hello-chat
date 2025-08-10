@@ -1,6 +1,6 @@
 import { GraphQLClient } from 'graphql-request';
 
-const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT || 'http://localhost:8787/graphql';
+const GRAPHQL_ENDPOINT = process.env.REACT_APP_GRAPHQL_ENDPOINT || 'https://api.plaguang.uk/graphql';
 
 export const graphqlClient = new GraphQLClient(GRAPHQL_ENDPOINT, {
   headers: {

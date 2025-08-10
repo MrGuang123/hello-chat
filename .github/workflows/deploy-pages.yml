@@ -44,9 +44,9 @@ jobs:
       - name: Build React app
         run: |
           cd fe
-          REACT_APP_GRAPHQL_ENDPOINT=https://deepseek-worker.ytg.workers.dev/graphql npm run build
+          REACT_APP_GRAPHQL_ENDPOINT=https://api.plaguang.uk/graphql npm run build
         env:
-          REACT_APP_GRAPHQL_ENDPOINT: https://deepseek-worker.ytg.workers.dev/graphql
+          REACT_APP_GRAPHQL_ENDPOINT: https://api.plaguang.uk/graphql
 
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/pages-action@v1

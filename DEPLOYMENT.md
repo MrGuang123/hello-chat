@@ -7,7 +7,8 @@
 ### 后端 (Cloudflare Workers)
 - **项目名称**: `deepseek-worker`
 - **部署URL**: https://deepseek-worker.ytg.workers.dev
-- **GraphQL端点**: https://deepseek-worker.ytg.workers.dev/graphql
+- **自定义域名**: https://api.plaguang.uk
+- **GraphQL端点**: https://api.plaguang.uk/graphql
 - **环境变量**: 
   - `DEEPSEEK_API_URL`: https://api.deepseek.com/v1/chat/completions
   - `DEEPSEEK_API_KEY`: [已设置为secret]
@@ -15,8 +16,9 @@
 ### 前端 (Cloudflare Pages)
 - **项目名称**: `hello-chat-frontend`
 - **部署URL**: https://9ad291df.hello-chat-frontend.pages.dev
+- **自定义域名**: https://chat.plaguang.uk
 - **环境变量**:
-  - `REACT_APP_GRAPHQL_ENDPOINT`: https://deepseek-worker.ytg.workers.dev/graphql
+  - `REACT_APP_GRAPHQL_ENDPOINT`: https://api.plaguang.uk/graphql
 
 ## 部署步骤回顾
 
@@ -38,8 +40,11 @@ npx wrangler pages secret put REACT_APP_GRAPHQL_ENDPOINT --project-name hello-ch
 ## 访问应用
 
 现在你可以通过以下URL访问应用：
-- **前端应用**: https://hello-chat-frontend.pages.dev
-- **后端API**: https://deepseek-worker.ytg.workers.dev/graphql
+- **前端应用**: https://chat.plaguang.uk
+- **后端API**: https://api.plaguang.uk/graphql
+- **原始URL**:
+  - 前端: https://hello-chat-frontend.pages.dev
+  - 后端: https://deepseek-worker.ytg.workers.dev/graphql
 
 ## 注意事项
 
